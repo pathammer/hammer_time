@@ -1,0 +1,144 @@
+##################################################
+# Extract - extract most common compression	 #
+# types	    	    	 			 #
+##################################################
+
+function extract()
+{
+     if [ -f $1 ] ; then
+         case $1 in
+            *.tar.bz2)   
+                tar xvjf $1     
+                ;;
+            *.tar.gz)    
+                tar xvzf $1     
+                ;;
+            *.bz2)       
+                bunzip2 $1      
+                ;;
+            *.rar)
+                unrar x $1      
+                ;;
+            *.gz)
+                gunzip $1       
+                ;;
+            *.tar)
+                tar xvf $1      
+                ;;
+            *.tbz2)
+                tar xvjf $1     
+                ;;
+            *.tgz)
+                tar xvzf $1     
+                ;;
+            *.zip)
+                unzip $1        
+                ;;
+            *.Z)
+                uncompress $1   
+                ;;
+            *.7z)
+                7z x $1         
+                ;;
+            *)  
+                echo "'$1' cannot be extracted via extract" 
+                ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+
+###### generate a random password
+#   $1 = number of characters; defaults to 32
+#   $2 = include special characters; 1 = yes, 0 = no; defaults to 1
+# copyright 2007 - 2010 Christopher Bratusek
+function randompw() {
+	 if [[ $2 == "!" ]]; then
+	    echo $(cat /dev/urandom | tr -cd '[:graph:]' | head -c ${1:-32})
+	    else echo $(cat /dev/urandom | tr -cd '[:alnum:]' | head -c ${1:-32})
+	    fi
+}
+
+##################################################
+# Find a file(s) ...				 #
+##################################################
+
+###### ... with pattern $1 in name and Execute $2 on it
+function fe() { find . -type f -iname '*'$1'*' -exec "${2:-file}" {} \;  ; }
+
+###### ... under the current directory
+function ff() { /usr/bin/find . -name "$@" ; }
+
+###### ... whose name ends with a given string
+function ffe() { /usr/bin/find . -name '*'"$@" ; }
+
+#PATH=$PATH:~/bin/
+#PATH=$PATH:~/.local/bin/
+PATH=$PATH:/opt/gradle/gradle-4.9/bin/
+#eval $(thefuck --alias)
+alias ll='ls -alhF'
+alias zshconfig="emacs -nw ~/.zshrc.local"
+alias i3config="emacs -nw ~/.config/i3/config"
+
+function python_style() {
+	 echo "module_name, package_name, ClassName, method_name, ExceptionName, function_name, GLOBAL_CONSTANT_NAME, global_var_name, instance_var_name, function_parameter_name, local_var_name"
+}
+
+bindkey '\e[A' history-beginning-search-backward
+bindkey '\e[B' history-beginning-search-forward
+
+alias em='emacs -nw'
+
+alias st='git status'
+
+alias volume='pavucontrol'
+
+alias python='python3'
+alias pip='pip3'
+
+alias opn='xdg-open'
+
+# Open a new window in this term's cwd
+alias nw="gnome-terminal"
+nwZle() { zle push-line; BUFFER="nw"; zle accept-line; }
+zle -N nwZle
+# CTRL+n
+bindkey '^n' nwZle
+
+export PYTHONSTARTUP='/home/hammer/.pythonrc'
+
+# alias lucky='ducky' # put in the web-search plugin
+
+alias ccat='pygmentize -g'
+alias gst-launch=gst-launch-1.0
+alias gac="git add -u; git commit -m"
+alias rdp="Remmina"
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='emacs -nw'
+else
+  export EDITOR='emacs'
+fi
+
+function swap()
+{
+    SUM=0
+    OVERALL=0
+    for DIR in `find /proc/ -maxdepth 1 -type d | egrep "^/proc/[0-9]"` ; do
+	PID=`echo $DIR | cut -d / -f 3`
+	PROGNAME=`ps -p $PID -o comm --no-headers`
+	for SWAP in `grep Swap $DIR/smaps 2>/dev/null| awk '{ print $2 }'`
+	do
+	    let SUM=$SUM+$SWAP
+	done
+	echo "PID=$PID - Swap used: $SUM - ($PROGNAME )"
+	let OVERALL=$OVERALL+$SUM
+	SUM=0
+    done
+    echo "Overall swap used: $OVERALL"
+}
+
+alias xevkb="xev -event keyboard | egrep -o '(keycode(.)+\)|XLookup.+[1-9].+)'"

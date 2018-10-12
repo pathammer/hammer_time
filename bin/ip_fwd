@@ -1,0 +1,6 @@
+sudo iptables -A FORWARD -o enp0s31f6 -i enp6s0f1 -s 10.7.4.0/24 -m conntrack --ctstate NEW -j ACCEPT
+sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -t nat -F POSTROUTING
+sudo iptables -t nat -A POSTROUTING -o enp0s31f6 -j MASQUERADE
+
+iptables-restore < /etc/iptables.sav
