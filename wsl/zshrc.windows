@@ -1,0 +1,4 @@
+cd /mnt/c/Users/Patrick\ Hammer
+alias npp="/mnt/c/Program\ Files\ \(x86\)/Notepad++/notepad++.exe"
+alias open="cmd.exe /C start"
+alias xdg-open=open
