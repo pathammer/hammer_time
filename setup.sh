@@ -1,3 +1,7 @@
+# My strategy here is to just link the config files into
+# the default locations they are expected to be at and if I edit them,
+# this git repo will be dirty
+
 ln zshrc ~/.zshrc
 ln zshrc.local ~/.config/
 ln fzf.zsh ~/.config/fzf.zsh
