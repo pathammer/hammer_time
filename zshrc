@@ -54,7 +54,6 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 plugins=(git colored-man-pages screen web-search dircycle dirpersist common-aliases gradle)
 
 source $ZSH/oh-my-zsh.sh
-source ~/.config/zshrc.local
 
 # User configuration
 
@@ -91,3 +90,5 @@ if [[ $(cat /proc/version) == *"Microsoft"* ]]; then
     echo "MS Windows Mode"
     MS_WSL=1
 fi
+
+source ~/.config/zshrc.local

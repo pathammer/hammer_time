@@ -1,4 +1,4 @@
 # Skip AppData dir
-export FZF_DEFAULT_COMMAND="find . -type d \( -path dir1 -o -path dir2 -o -path dir3 \) -prune -o -print"
+export FZF_DEFAULT_COMMAND="find . -type f -not -path '*AppData/*' -print 2> /dev/null"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-#export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(open {})+abort'"
+export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(cmd.exe /C start {})+abort'"
