@@ -86,3 +86,8 @@ export SSH_KEY_PATH="~/.ssh/id_rsa"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 [ -f ~/.config/fzf.zsh ] && source ~/.config/fzf.zsh
+
+if [[ $(cat /proc/version) == *"Microsoft"* ]]; then
+    echo "MS Windows Mode"
+    MS_WSL=1
+fi

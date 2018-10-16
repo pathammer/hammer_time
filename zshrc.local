@@ -142,3 +142,7 @@ function swap()
 }
 
 alias xevkb="xev -event keyboard | egrep -o '(keycode(.)+\)|XLookup.+[1-9].+)'"
+
+if [ -z ${var+x} ]; then 
+    source $HOME/.config/shell_clipboard_sync.zsh
+fi
