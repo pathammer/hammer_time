@@ -335,7 +335,7 @@ exec --no-startup-id xsetroot -solid "#333333"
 # Screen shots
 # scrot & gpaint
 bindsym $mod+Print exec import
-bindsym Print exec "scrot -s -e 'mv $f /tmp/ && gpaint /tmp/$f; xclip -selection clipboard -t image/png -i /tmp/$f'"
+bindsym Print exec "scrot -s -e 'mv $f /tmp/ && gthumb /tmp/$f; xclip -selection clipboard -t image/png -i /tmp/$f'"
 
 # bindsym Print exec gnome-screenshot --interactive
 
@@ -345,3 +345,10 @@ bindsym Print exec "scrot -s -e 'mv $f /tmp/ && gpaint /tmp/$f; xclip -selection
 #bindcode [--release] 225 exec  xbacklight -inc 25
 #bindsym XF86MonBrightnessUp exec xbacklight -inc 25
 #bindsym XF86MonBrightnessDown exec xbacklight -dec 25
+
+# Clipboard Mgmgt
+#bindsym Shift+Ctrl+v exec copyq menu
+exec copyq
+bindsym Shift+Ctrl+v exec clip.zsh
+bindsym Shift+Ctrl+c exec copyq toggle
+for_window [class="(?i)CopyQ"] floating enable, move position mouse    

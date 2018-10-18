@@ -7,8 +7,7 @@ fi
 if [[ -n $SSH_CONNECTION ]]; then
   export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(${EDITOR:-vim} {})+abort'"
 else
-  export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(xdg-open {})+abort'"
-  export FZF_DEFAULT_OPTS="--bind='ctrl-e:execute(${EDITOR:-vim} {})+abort'"
+  export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(xdg-open {})+abort' --bind='ctrl-e:execute(${EDITOR:-vim} {})+abort'"
 fi
 
 
@@ -109,3 +108,5 @@ tm() {
     fi
     session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
 }
+
+alias preview="fzf --preview 'bat --color \"always\" {}'"

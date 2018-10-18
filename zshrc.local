@@ -100,6 +100,8 @@ alias pip='pip3'
 
 alias opn='xdg-open'
 
+alias cat='bat' # https://github.com/sharkdp/bat
+
 # Open a new window in this term's cwd
 alias nw="gnome-terminal"
 nwZle() { zle push-line; BUFFER="nw"; zle accept-line; }
