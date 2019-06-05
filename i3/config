@@ -237,9 +237,9 @@ exec nm-applet
 #exec caffeine-indicator
 #exec synergys -c /home/phammer/.synergy.conf --enable-crypto
 exec gsettings set org.gnome.desktop.background show-desktop-icons false #prevents desktop from showing
-exec parcellite #clipboard manager
+#exec parcellite #clipboard manager
 #exec clipit #clipboard manager what is usefull with xterm
-exec xset m 3/1 10 # set mouse acceleration first number is acceleration, second is threshold in px/10ms
+exec xset m 6 10 # set mouse acceleration first number is acceleration, second is threshold in px/10ms
 exec gvfs-mount -d /dev/sda3 # tell nautalus to mount my storage drive automatically
 exec desktop.sh # script to call xrandr TODO: try ARandR
 
@@ -290,12 +290,15 @@ exec --no-startup-id xautolock -time 5 -locker 'blur_lock.sh' &
 
 #Snap to a program similar to windows 1, 2, 3...
 bindsym $mod+i exec ~/bin/find_or_start.sh chrome
-bindsym $mod+Shift+i exec /opt/google/chrome/google-chrome --profile-directory=Default --app-id=knipolnnllmklapflnccelgolnpehhpl
+bindsym $mod+Shift+i exec /opt/google/chrome/google-chrome --profile-directory="Profile 1"
 bindsym $mod+o exec ~/bin/find_or_start.sh slack
 #bindsym $mod+u exec ~/bin/find_or_start.sh gnome-terminal
-bindsym $mod+u exec python ~/bin/nextmatch.py @disney.com # my email!
+#bindsym $mod+u exec python ~/bin/nextmatch.py @disney.com # my email!
+bindsym $mod+u exec ~/bin/find_or_start.sh hirimain
 bindsym $mod+j exec ~/bin/find_or_start.sh spotify
-
+bindsym $mod+p exec python ~/bin/nextmatch.py Messages
+#bindsym $mod+Shift+p exec /opt/google/chrome/google-chrome --profile-directory=Default --app-id=nngjipgjhfkaeimbhgmodlbhligdflei
+bindsym $mod+Shift+p exec /opt/google/chrome/google-chrome --app=https://messages.google.com/web/conversations
 
 #Enable alt tab back and forth
 workspace_auto_back_and_forth yes
@@ -305,6 +308,8 @@ bindsym $mod+Shift+Tab move container to workspace back_and_forth
 #for_Window [Class="^Pidgin$" Window_Role="^Conversation$"] Resize Grow Width 0 px or 30 ppt
 #for_window [class="^Google-chrome$" window_role="^pop-up$"] floating enable, move position mouse,  border none
 for_window [title="Hangouts"] floating enable, move position mouse
+for_window [title="Messages for web"] floating enable, sticky enable, move position mouse, resize set 1000 700
+for_window [title="Popout for YouTube*"] floating enable, sticky enable, move position 50 1900, border pixel 1
 #for_window [role="pop-up"] floating enabled, move position mouse
 
 # Toggle stickey, makes floating window appear on all workspaces
@@ -335,7 +340,7 @@ exec --no-startup-id xsetroot -solid "#333333"
 # Screen shots
 # scrot & gpaint
 bindsym $mod+Print exec import
-bindsym Print exec "scrot -s -e 'mv $f /tmp/ && gthumb /tmp/$f; xclip -selection clipboard -t image/png -i /tmp/$f'"
+bindsym Print --release exec "scrot -s -e 'mv $f /tmp/ && gthumb /tmp/$f; xclip -selection clipboard -t image/png -i /tmp/$f'"
 
 # bindsym Print exec gnome-screenshot --interactive
 
@@ -351,4 +356,7 @@ bindsym Print exec "scrot -s -e 'mv $f /tmp/ && gthumb /tmp/$f; xclip -selection
 exec copyq
 bindsym Shift+Ctrl+v exec clip.zsh
 bindsym Shift+Ctrl+c exec copyq toggle
-for_window [class="(?i)CopyQ"] floating enable, move position mouse    
+for_window [class="(?i)CopyQ"] floating enable, move position mouse
+
+# Initiate the comms workspace
+exec --no-startup-id "/home/hammer/.config/i3/comms.sh"
