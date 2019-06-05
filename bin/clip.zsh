@@ -2,14 +2,24 @@
 
 #copyq add "test" "one" "two\ntwo" "three\nthree"
 
-CLIP=$(copyq clipboard  | tr '\r\n' '\r')
+CLIP=()
+#CLIP+=("$(copyq clipboard  | tr '\r\n' '\r')")
 
-for n ({0..10});
+for n ({0..25});
 do
-    CLIP="$CLIP\n$(copyq read $n | tr '\r\n' '\r' )"
+    CLIP+=("$(copyq read $n | tr '\r\n' '\r' )")
 done
-SELECTION=$(echo $CLIP | dmenu -i -l 20 | tr '\r' '\r\n')
+
+CONCAT=""
+for i in ${(u)CLIP[@]}; do # remove duplicates
+    temp=$(echo $i | xargs)
+    CONCAT="$CONCAT\n$temp"
+done
+
+CONCAT=${CONCAT:2} # remove the leading newline char \n
+
+SELECTION=$(echo $CONCAT | dmenu -i -l 25 | tr '\r' '\r\n')
 
 if [ ! -z "$SELECTION" ]; then
-    copyq copy "$SELECTION"
+    echo -n "$SELECTION" | xclip -i -selection XA_CLIPBOARD    
 fi;

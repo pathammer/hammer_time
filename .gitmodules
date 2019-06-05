@@ -1,0 +1,3 @@
+[submodule "bin/prettyping"]
+	path = bin/prettyping
+	url = https://github.com/denilsonsa/prettyping.git
