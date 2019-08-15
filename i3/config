@@ -13,7 +13,9 @@ set $win Mod4
 
 # font for window titles. ISO 10646 = Unicode
 #font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-font pango:DejaVu Sans Mono 8
+#font 
+set $FONT "pango:DejaVu Sans Mono 10"
+font $FONT
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -37,11 +39,11 @@ bindsym --release $mod+x exec xkill
 
 # start dmenu (a program launcher)
 #bindsym $win+d exec dmenu_run
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec dmenu_run -fn "DejaVu Sans Mono-10"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-bindsym $mod+Shift+d exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+Shift+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu_run -fn 'DejaVu Sans Mono-10'"
 
 # change focus
 bindsym $mod+Left focus left
@@ -214,18 +216,18 @@ bar {
 	statusline #ffffff
 	separator #666666
         
-        focused_workspace  #44BBFF #5294E2 #ffffff
+        focused_workspace  #69306d #C55ACC #ffffff
 	active_workspace   #333333 #5f676a #ffffff
 	inactive_workspace #333333 #222222 #888888
 	urgent_workspace   #2f343a #900000 #ffffff
 	binding_mode       #2f343a #900000 #ffffff
     }
-    
-    	font pango:Source Code Pro, Icons 9
+
+    	font $FONT
         status_command py3status -c ~/.config/i3/i3status.conf
 
-	output DP-0
-	output DP-4
+	#output DP-0
+	#output DP-4
         #mode hide
         #hidden_state hide
         #modifier $mod
@@ -289,8 +291,10 @@ bindsym $mod+Home exec --no-startup-id blur_lock.sh
 exec --no-startup-id xautolock -time 5 -locker 'blur_lock.sh' &
 
 #Snap to a program similar to windows 1, 2, 3...
-bindsym $mod+i exec ~/bin/find_or_start.sh chrome
-bindsym $mod+Shift+i exec /opt/google/chrome/google-chrome --profile-directory="Profile 1"
+#bindsym $mod+i exec ~/bin/find_or_start.sh chrome
+bindsym $mod+i exec firefox -P home --new-tab about:newtab
+#bindsym $mod+Shift+i exec /opt/google/chrome/google-chrome --profile-directory="Profile 1"
+bindsym $mod+Shift+i exec firefox -P work --new-tab about:newtab
 bindsym $mod+o exec ~/bin/find_or_start.sh slack
 #bindsym $mod+u exec ~/bin/find_or_start.sh gnome-terminal
 #bindsym $mod+u exec python ~/bin/nextmatch.py @disney.com # my email!
@@ -318,6 +322,7 @@ bindsym $mod+Shift+s sticky toggle
 #New terminal here - enabled by the dirpersist oh-my-zsh plugin
 bindsym $mod+Shift+Return exec gnome-terminal --working-directory=$(head -n 1 ~/.zdirs)
 #bindsym $mod+Shift+Return exec gnome-terminal --working-directory=$(xcwd)
+bindsym Shift+$mod+n exec finder.sh
 
 set $uf #2F343F
 set $hl #5294E2
@@ -360,3 +365,18 @@ for_window [class="(?i)CopyQ"] floating enable, move position mouse
 
 # Initiate the comms workspace
 exec --no-startup-id "/home/hammer/.config/i3/comms.sh"
+
+# fun unicode character typing, similar to mac typing special chars
+bindsym --release mod1+minus exec xdotool key --clearmodifiers U2014 # em dash
+bindsym --release Shift+mod1+1 exec xdotool key --clearmodifiers U203d # exclaim question
+bindsym --release Shift+mod1+r exec xdotool key --clearmodifiers U2622 # radiation
+bindsym --release Shift+mod1+x exec xdotool key --clearmodifiers U2620 # skull and cross
+bindsym --release Shift+mod1+b exec xdotool key --clearmodifiers U2623 # biohazard
+bindsym --release Shift+mod1+j exec xdotool key --clearmodifiers U2615 # java
+bindsym --release Shift+mod1+ plus exec xdotool key --clearmodifiers U2248 # approx equals
+bindsym --release Shift+mod1+minus exec xdotool key --clearmodifiers U00B1 # hmmm
+
+bindsym	Shift+mod1+e exec emoji-menu # https://github.com/jchook/emoji-menu
+
+exec xcape -t 300 -e 'Shift_L=parenleft;Shift_R=parenright;Control_L=Tab'
+ 
