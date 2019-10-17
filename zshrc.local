@@ -76,7 +76,7 @@ function ffe() { /usr/bin/find . -name '*'"$@" ; }
 
 #PATH=$PATH:~/bin/
 #PATH=$PATH:~/.local/bin/
-PATH=$PATH:/opt/gradle/gradle-4.10.3/bin/
+PATH=$PATH:/opt/gradle/gradle-5.5.1/bin/
 #eval $(thefuck --alias)
 alias ll='ls -alhF'
 alias zshconfig="emacs -nw ~/.config/zshrc.local"
@@ -92,6 +92,7 @@ bindkey '\e[B' history-beginning-search-forward
 alias em='emacs -nw'
 
 alias st='git status'
+alias gco='git branch -a | fzf --height=20 --reverse --border | xargs git checkout'
 
 alias volume='pavucontrol'
 
@@ -101,6 +102,9 @@ alias pip='pip3'
 alias opn='xdg-open'
 
 alias cat='bat' # https://github.com/sharkdp/bat
+
+alias grab='peek'
+alias snipping-tool='peek'
 
 # Open a new window in this term's cwd
 alias nw="gnome-terminal"
