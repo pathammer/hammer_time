@@ -253,7 +253,7 @@ exec desktop.sh # script to call xrandr TODO: try ARandR
 
 
 # logitech mouse notifications
-exec solaar
+#exec solaar
 
 for_window [class="^Google Play Music$"] floating enable
 for_window [class="ShowEngineCli"] floating enable
@@ -283,12 +283,13 @@ bindsym $mod+Shift+F7 exec --no-startup-id playerctl -p spotify play-pause
 bindsym Shift+F8 exec --no-startup-id playerctl next
 
 #Lock the screen
-bindsym $mod+Home exec --no-startup-id blur_lock.sh
-#bindsym $mod+Home exec --no-startup-id i3lock -d -c 000000
+#bindsym $mod+Home exec --no-startup-id blur_lock.sh
+bindsym $mod+Home exec --no-startup-id i3lock -d -c 000000
 #bindsym $mod+Home exec --no-startup-id gnome-screensaver-command -l
 
 #Autolock after inactivity
-exec --no-startup-id xautolock -time 5 -locker 'blur_lock.sh' &
+#exec --no-startup-id xautolock -time 5 -locker 'blur_lock.sh' &
+exec --no-startup-id xautolock -time 5 -locker 'i3lock -d -c 000000' &
 
 #Snap to a program similar to windows 1, 2, 3...
 #bindsym $mod+i exec ~/bin/find_or_start.sh chrome
@@ -298,11 +299,11 @@ bindsym $mod+Shift+i exec firefox -P work --new-tab about:newtab
 bindsym $mod+o exec ~/bin/find_or_start.sh slack
 #bindsym $mod+u exec ~/bin/find_or_start.sh gnome-terminal
 #bindsym $mod+u exec python ~/bin/nextmatch.py @disney.com # my email!
-bindsym $mod+u exec ~/bin/find_or_start.sh hirimain
+#bindsym $mod+u exec ~/bin/find_or_start.sh hirimain
 bindsym $mod+j exec ~/bin/find_or_start.sh spotify
 bindsym $mod+p exec python ~/bin/nextmatch.py Messages
 #bindsym $mod+Shift+p exec /opt/google/chrome/google-chrome --profile-directory=Default --app-id=nngjipgjhfkaeimbhgmodlbhligdflei
-bindsym $mod+Shift+p exec /opt/google/chrome/google-chrome --app=https://messages.google.com/web/conversations
+bindsym $mod+Shift+p exec /snap/bin/chromium --app=https://messages.google.com/web/conversations
 
 #Enable alt tab back and forth
 workspace_auto_back_and_forth yes
