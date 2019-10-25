@@ -7,6 +7,7 @@ This project contains my default Linux development environment. The environment 
 * zsh
 * [oh-my-zsh](https://ohmyz.sh/)
 * [fzf fuzzy find](https://github.com/junegunn/fzf)
+* [xcape](https://github.com/alols/xcape) key remapping, press and holds
 
 Installation
 ------------
