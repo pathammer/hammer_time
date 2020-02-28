@@ -3,26 +3,32 @@
 #copyq add "test" "one" "two\ntwo" "three\nthree"
 
 CLIP=()
-#CLIP+=("$(copyq clipboard  | tr '\r\n' '\r')")
-
 for n ({0..25});
 do
-    CLIP+=("$(copyq read $n | tr '\r\n' '\r' )")
+    CLIP+=("$(copyq read $n)")
 done
 
-#TODO: stop messing with newlines, only display first line of each entry in dmenu, use index to put origional, unmolested entry on clipboard
-
-CONCAT=""
+CLIP_UNIQ=()
 for i in ${(u)CLIP[@]}; do # remove duplicates
-    temp=$(echo $i | xargs)
+    CLIP_UNIQ+="$i"
+done
+
+#todo there must be a more clean way to concat, thinking ov using null \000
+CONCAT=""
+COUNTER=0
+for i in ${CLIP_UNIQ[@]}; do # remove duplicates
+    temp="$COUNTER $(echo "$i" | head -n 1 | head -c 300)" # only print first line in dmenu
+    COUNTER=$((COUNTER+1))
     CONCAT="$CONCAT\n$temp"
 done
 
-CONCAT=${CONCAT:2} # remove the leading newline char \n
+CONCAT="${CONCAT:2}" # remove the leading newline char \n
 
-SELECTION=$(echo $CONCAT | dmenu -i -l 25 | tr '\r' '\r\n')
+SELECTION="$(echo $CONCAT | dmenu -i -l 25)"
 
 if [ ! -z "$SELECTION" ]; then
-    echo -n "$SELECTION" | xargs copyq copy
-    echo -n "$SELECTION" | xclip -selection XA_CLIPBOARD
+    IDX=$(echo -n $SELECTION | awk '{ print $1 }')
+    CLIP_SEL=${CLIP_UNIQ[$((IDX+1))]} #why do I have to add 1!
+    echo -n "$CLIP_SEL" | xargs -0 copyq copy 1>/dev/null
+    echo -n "$CLIP_SEL" | xclip -selection XA_CLIPBOARD
 fi;
