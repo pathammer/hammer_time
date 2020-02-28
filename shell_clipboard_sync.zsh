@@ -3,32 +3,38 @@
 pb-kill-line () {
     zle kill-line
     echo -n $CUTBUFFER | xclip -i -selection XA_CLIPBOARD
+    echo -n $CUTBUFFER | xargs -0 copyq copy 1>/dev/null
     }
 
 pb-kill-whole-line () {
     zle kill-whole-line
     echo -n $CUTBUFFER | xclip -i -selection XA_CLIPBOARD
+    echo -n $CUTBUFFER | xargs -0 copyq copy 1>/dev/null
 }
 
 pb-backward-kill-word () {
     zle backward-kill-word
     echo -n $CUTBUFFER | xclip -i -selection XA_CLIPBOARD
+    echo -n $CUTBUFFER | xargs -0 copyq copy 1>/dev/null
 }
 
 pb-kill-word () {
     zle kill-word
     echo -n $CUTBUFFER | xclip -i -selection XA_CLIPBOARD
+    echo -n $CUTBUFFER | xargs -0 copyq copy 1>/dev/null
 }
 
 pb-kill-buffer () {
     zle kill-buffer
     echo -n $CUTBUFFER | xclip -i -selection XA_CLIPBOARD
+    echo -n $CUTBUFFER | xargs -0 copyq copy 1>/dev/null
 }
 
 pb-copy-region-as-kill-deactivate-mark () {
     zle copy-region-as-kill
     zle set-mark-command -n -1
     echo -n $CUTBUFFER | xclip -i -selection XA_CLIPBOARD
+    echo -n $CUTBUFFER | xargs -0 copyq copy 1>/dev/null
 }
 
 pb-yank () {
