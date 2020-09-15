@@ -10,6 +10,8 @@
 # Windows Key
 set $mod Mod4
 set $win Mod4
+set $hyper Shift+Mod4+Mod1+Ctrl
+set $meh Shift+Mod1+Ctrl # TODO: use hyper keycombo from kinesis to prevent any possible keyboard shortcut conflicts
 
 # font for window titles. ISO 10646 = Unicode
 #font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -87,22 +89,25 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+bindsym $mod+a        focus parent
 
 # focus the child container
-bindcode $mod+shift+a focus child
+bindsym $mod+Shift+a focus child
+
+# rename the current workspace, start with a number or else, TODO: automatically add a number
+bindsym $mod+t exec i3-input -F 'rename workspace to "%s"' -P 'New name for this workspace: '
 
 # customize workspace names
-set $WS1 "1: comms"
-set $WS2 2
-set $WS3 3
-set $WS4 4
-set $WS5 5
-set $WS6 6
-set $WS7 7
-set $WS8 8
-set $WS9 9
-set $WS10 10
+set $WS1 number 1
+set $WS2 number 2
+set $WS3 number 3
+set $WS4 number 4
+set $WS5 number 5
+set $WS6 number 6
+set $WS7 number 7
+set $WS8 number 8
+set $WS9 number 9
+set $WS10 number 10
 
 # switch to workspace
 bindsym $mod+1 workspace $WS1
@@ -167,7 +172,7 @@ mode "resize" {
         # back to normal: Enter or Escape or Mod1+r
         bindsym Return mode "default"
         bindsym Escape mode "default"
-        bindsym Mod1+r mode "default"
+        bindsym $mod+r mode "default"
 	}
 
 bindsym $mod+r mode "resize"
@@ -204,6 +209,7 @@ mode "focused" {
                 # Exit to the default mode
                 bindsym Return mode "default"
                 bindsym Escape mode "default"
+		bindsym $mod+n mode "default"
 }
 
 bindsym $mod+n mode "focused"
@@ -243,7 +249,9 @@ exec gsettings set org.gnome.desktop.background show-desktop-icons false #preven
 #exec clipit #clipboard manager what is usefull with xterm
 exec xset m 6 10 # set mouse acceleration first number is acceleration, second is threshold in px/10ms
 exec gvfs-mount -d /dev/sda3 # tell nautalus to mount my storage drive automatically
-exec desktop.sh # script to call xrandr TODO: try ARandR
+exec barrier -c ~/Documents/barrier # replacemnt for synergy
+#exec desktop.sh # script to call xrandr TODO: try ARandR
+exec_always --no-startup-id /home/hammer/.local/bin/autotiling # pip install autotiling https://github.com/nwg-piotr/autotiling
 
 
 # ROFI https://davedavenport.github.io/rofi/
@@ -293,7 +301,7 @@ exec --no-startup-id xautolock -time 5 -locker 'i3lock -d -c 000000' &
 
 #Snap to a program similar to windows 1, 2, 3...
 #bindsym $mod+i exec ~/bin/find_or_start.sh chrome
-bindsym $mod+i exec firefox -P home --new-tab about:newtab
+bindsym  $mod+i exec ~/bin/find_or_start.sh firefox # -P home --new-tab about:newtab
 #bindsym $mod+Shift+i exec /opt/google/chrome/google-chrome --profile-directory="Profile 1"
 bindsym $mod+Shift+i exec firefox -P work --new-tab about:newtab
 bindsym $mod+o exec ~/bin/find_or_start.sh slack
@@ -315,6 +323,7 @@ bindsym $mod+Shift+Tab move container to workspace back_and_forth
 for_window [title="Hangouts"] floating enable, move position mouse
 for_window [title="Messages for web"] floating enable, sticky enable, move position mouse, resize set 1000 700
 for_window [title="Popout for YouTube*"] floating enable, sticky enable, move position 50 1900, border pixel 1
+for_window [title="Picture-in-Picture"] floating enable, sticky enable, move position 50 1900, border pixel 1
 #for_window [role="pop-up"] floating enabled, move position mouse
 
 # Toggle stickey, makes floating window appear on all workspaces
@@ -346,10 +355,10 @@ exec --no-startup-id xsetroot -solid "#333333"
 # Screen shots
 # scrot & gpaint
 bindsym $mod+Print exec import
-bindsym Print --release exec "scrot -s -e 'mv $f /tmp/ && gthumb /tmp/$f; xclip -selection clipboard -t image/png -i /tmp/$f'"
+#bindsym Print --release exec "scrot -s -e 'mv $f /tmp/ && gthumb /tmp/$f; xclip -selection clipboard -t image/png -i /tmp/$f'"
+bindsym Print --release exec ksnip -r
 
 # bindsym Print exec gnome-screenshot --interactive
-
 
 #brightness
 #bindcode [--release] 224 exec  xbacklight -dec 25
@@ -367,17 +376,26 @@ for_window [class="(?i)CopyQ"] floating enable, move position mouse
 # Initiate the comms workspace
 exec --no-startup-id "/home/hammer/.config/i3/comms.sh"
 
-# fun unicode character typing, similar to mac typing special chars
-bindsym --release mod1+minus exec xdotool key --clearmodifiers U2014 # em dash
-bindsym --release Shift+mod1+1 exec xdotool key --clearmodifiers U203d # exclaim question
-bindsym --release Shift+mod1+r exec xdotool key --clearmodifiers U2622 # radiation
-bindsym --release Shift+mod1+x exec xdotool key --clearmodifiers U2620 # skull and cross
-bindsym --release Shift+mod1+b exec xdotool key --clearmodifiers U2623 # biohazard
-bindsym --release Shift+mod1+j exec xdotool key --clearmodifiers U2615 # java
-bindsym --release Shift+mod1+ plus exec xdotool key --clearmodifiers U2248 # approx equals
-bindsym --release Shift+mod1+minus exec xdotool key --clearmodifiers U00B1 # hmmm
+# fun unicode character typing, similar to mac typing special chars i love
+bindsym --release mod1+minus exec xdotool key --clearmodifiers U2014 # em dash —
+bindsym --release Shift+mod1+1 exec xdotool key --clearmodifiers U203d # exclaim question ‽
+bindsym --release Shift+mod1+r exec xdotool key --clearmodifiers U2622 # radiation ☢
+bindsym --release Shift+mod1+x exec xdotool key --clearmodifiers U2620 # skull and cross ☠
+bindsym --release Shift+mod1+b exec xdotool key --clearmodifiers U2623 # biohazard ☣
+bindsym --release Shift+mod1+j exec xdotool key --clearmodifiers U2615 # java ☕
+bindsym --release Shift+mod1+ plus exec xdotool key --clearmodifiers U2248 # approx equals ≈
+bindsym --release Shift+mod1+minus exec xdotool key --clearmodifiers U00B1 # ±
 
 bindsym	Shift+mod1+e exec emoji-menu # https://github.com/jchook/emoji-menu
 
 exec xcape -t 300 -e 'Shift_L=parenleft;Shift_R=parenright;Control_L=Tab'
- 
+
+# MouseKeys Setup: use the numpad keys to drive the mouse pointer around and click on stuff!
+# Activate with shift+numlock
+# Documentation https://www.x.org/releases/X11R7.7/doc/kbproto/xkbproto.html
+exec setxkbmap -option keypad:pointerkeys
+exec xkbset ma 20 16 40 100 2 #todo: this should probably be in udev because it goes away when replugging keyboard
+     #   [-]{mousekeysaccel | ma} [mk-delay> <mk_interval> <mk_time_to_max mk-max_speed> <mk_curve]
+bindsym  $hyper+Up exec xdotool click  --repeat 6 --delay 5 4 #scroll up and down
+bindsym  $hyper+Down exec xdotool click  --repeat 6 --delay 5 5
+exec keynav # https://github.com/jordansissel/keynav handy mouse move with keyboard
