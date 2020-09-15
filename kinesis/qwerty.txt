@@ -1,0 +1,24 @@
+[kp-caps]>[escape]
+[scroll]>[vol-]
+[pause]>[vol+]
+
+* I use shift insert often to paste secondary clipboard
+[intl-]>[kp-insert]
+
+[lalt]>[rwin]
+[kp-lalt]>[rwin]
+
+[rwin]>[lalt]
+[kp-rwin]>[lalt]
+
+{kp-y}>{-kp-lshift}{-kp-lctrl}{-rwin}{-lalt}{kp-up}{+rwin}{+kp-lctrl}{+kp-lshift}{+lalt}
+{kp-h}>{-kp-lshift}{-kp-lctrl}{-rwin}{-lalt}{kp-down}{+rwin}{+kp-lctrl}{+kp-lshift}{+lalt}
+
+[caps]>[escape][t&h250][caps]
+
+* toggle numpad layer more easily, tried added tap and hold but didnt work
+[tab]>[kptoggle]
+[kp-tab]>[kptoggle]
+
+*[hyper] = Hyper = Left Shift + Left Control + Left Alt + Left Window
+*[meh] = Meh = Left Shift + Left Control + Left Alt
