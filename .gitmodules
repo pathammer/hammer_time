@@ -1,6 +1,0 @@
-[submodule "bin/prettyping"]
-	path = bin/prettyping
-	url = https://github.com/denilsonsa/prettyping.git
-[submodule "bin/fzf_source"]
-	path = bin/fzf_source
-	url = https://github.com/junegunn/fzf.git
