@@ -3,7 +3,7 @@
 [pause]>[vol+]
 
 * I use shift insert often to paste secondary clipboard
-[intl-]>[kp-insert]
+[intl-\]>[kp-insert]
 
 [lalt]>[rwin]
 [kp-lalt]>[rwin]
@@ -11,14 +11,24 @@
 [rwin]>[lalt]
 [kp-rwin]>[lalt]
 
-{kp-y}>{-kp-lshift}{-kp-lctrl}{-rwin}{-lalt}{kp-up}{+rwin}{+kp-lctrl}{+kp-lshift}{+lalt}
-{kp-h}>{-kp-lshift}{-kp-lctrl}{-rwin}{-lalt}{kp-down}{+rwin}{+kp-lctrl}{+kp-lshift}{+lalt}
+* kp mousekeys hyper stuff
+{kp-y}>{-lshift}{-lctrl}{-lwin}{-lalt}{kp-up}{+lalt}{+lwin}{+lctrl}{+lshift}
+{kp-h}>{-lshift}{-lctrl}{-lwin}{-lalt}{kp-down}{+lalt}{+lwin}{+lctrl}{+lshift}
+
+{kp-6}>{-lshift}{-lctrl}{-lwin}{-lalt}{kp-6}{+lalt}{+lwin}{+lctrl}{+lshift}
+{kp-n}>{-lshift}{-lctrl}{-lwin}{-lalt}{kp-n}{+lalt}{+lwin}{+lctrl}{+lshift}
+
+* right click
+{kp-enter}>{-lshift}{-lctrl}{-lwin}{-lalt}{s}{+lalt}{+lwin}{+lctrl}{+lshift}
+
+* enable mousekeys
+{kp-rctrl}>{-lshift}{numlk}{+lshift}
 
 [caps]>[escape][t&h250][caps]
 
 * toggle numpad layer more easily, tried added tap and hold but didnt work
-[tab]>[kptoggle]
-[kp-tab]>[kptoggle]
+[tab]>[kpshift]
+[kp-tab]>[kpshift]
 
 *[hyper] = Hyper = Left Shift + Left Control + Left Alt + Left Window
 *[meh] = Meh = Left Shift + Left Control + Left Alt
