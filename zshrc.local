@@ -74,8 +74,8 @@ function ff() { /usr/bin/find . -name "$@" ; }
 ###### ... whose name ends with a given string
 function ffe() { /usr/bin/find . -name '*'"$@" ; }
 
-#PATH=$PATH:~/bin/
-#PATH=$PATH:~/.local/bin/
+PATH=$PATH:~/bin/
+PATH=$PATH:~/.local/bin/
 PATH=$PATH:/opt/gradle/gradle-5.5.1/bin/
 #eval $(thefuck --alias)
 alias ll='ls -alhF'
@@ -101,7 +101,7 @@ alias pip='pip3'
 
 alias opn='xdg-open'
 
-alias cat='bat' # https://github.com/sharkdp/bat
+alias cat='batcat' # https://github.com/sharkdp/bat
 
 alias grab='peek'
 alias snipping-tool='peek'
@@ -121,6 +121,7 @@ alias ccat='pygmentize -g'
 alias gst-launch=gst-launch-1.0
 alias gac="git add -u; git commit -m"
 alias rdp="Remmina"
+alias settings="env XDG_CURRENT_DESKTOP=GNOME gnome-control-center"
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -152,6 +153,7 @@ alias xevkb="xev -event keyboard | egrep -o '(keycode(.)+\)|XLookup.+[1-9].+)'"
 
 if [[ -z "$MS_WSL" ]]; then
     source $HOME/.config/shell_clipboard_sync.zsh
+    source  /usr/share/autojump/autojump.zsh
 else
     source $HOME/.config/zshrc.windows
     source $HOME/.config/fzf.windows

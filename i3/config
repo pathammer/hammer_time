@@ -48,16 +48,17 @@ bindsym $mod+d exec dmenu_run -fn "DejaVu Sans Mono-10"
 bindsym $mod+Shift+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -fn 'DejaVu Sans Mono-10'"
 
 # change focus
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+# inspired by http://pushl.net/blog/18/
+bindsym $mod+Left exec "~/bin/move-cursor-window-center.sh focus left"
+bindsym $mod+Down exec "~/bin/move-cursor-window-center.sh focus down"
+bindsym $mod+Up exec "~/bin/move-cursor-window-center.sh focus up"
+bindsym $mod+Right exec "~/bin/move-cursor-window-center.sh focus right"
 
 # move focused window
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+bindsym $mod+Shift+Left exec "~/bin/move-cursor-window-center.sh move left"
+bindsym $mod+Shift+Down exec "~/bin/move-cursor-window-center.sh move down"
+bindsym $mod+Shift+Up exec "~/bin/move-cursor-window-center.sh move up"
+bindsym $mod+Shift+Right exec "~/bin/move-cursor-window-center.sh move right"
 
 # split in horizontal orientation
 bindsym $mod+h split h
@@ -110,34 +111,35 @@ set $WS9 number 9
 set $WS10 number 10
 
 # switch to workspace
-bindsym $mod+1 workspace $WS1
-bindsym $mod+2 workspace $WS2
-bindsym $mod+3 workspace $WS3
-bindsym $mod+4 workspace $WS4
-bindsym $mod+5 workspace $WS5
-bindsym $mod+6 workspace $WS6
-bindsym $mod+7 workspace $WS7
-bindsym $mod+8 workspace $WS8
-bindsym $mod+9 workspace $WS9
-bindsym $mod+0 workspace $WS10
+#bindsym $mod+1 workspace $WS1
+bindsym $mod+1 exec "~/bin/move-cursor-window-center.sh workspace $WS1"
+bindsym $mod+2 exec "~/bin/move-cursor-window-center.sh workspace $WS2"
+bindsym $mod+3 exec "~/bin/move-cursor-window-center.sh workspace $WS3"
+bindsym $mod+4 exec "~/bin/move-cursor-window-center.sh workspace $WS4"
+bindsym $mod+5 exec "~/bin/move-cursor-window-center.sh workspace $WS5"
+bindsym $mod+6 exec "~/bin/move-cursor-window-center.sh workspace $WS6"
+bindsym $mod+7 exec "~/bin/move-cursor-window-center.sh workspace $WS7"
+bindsym $mod+8 exec "~/bin/move-cursor-window-center.sh workspace $WS8"
+bindsym $mod+9 exec "~/bin/move-cursor-window-center.sh workspace $WS9"
+bindsym $mod+0 exec "~/bin/move-cursor-window-center.sh workspace $WS10"
 
 # move focused container to workspace                                                                                                                                                          
-bindsym $mod+Shift+1 move container to workspace $WS1
-bindsym $mod+Shift+2 move container to workspace $WS2
-bindsym $mod+Shift+3 move container to workspace $WS3
-bindsym $mod+Shift+4 move container to workspace $WS4
-bindsym $mod+Shift+5 move container to workspace $WS5
-bindsym $mod+Shift+6 move container to workspace $WS6
-bindsym $mod+Shift+7 move container to workspace $WS7
-bindsym $mod+Shift+8 move container to workspace $WS8
-bindsym $mod+Shift+9 move container to workspace $WS9
-bindsym $mod+Shift+0 move container to workspace $WS10
+bindsym $mod+Shift+1 exec "~/bin/move-cursor-window-center.sh move container to workspace $WS1"
+bindsym $mod+Shift+2 exec "~/bin/move-cursor-window-center.sh move container to workspace $WS2"
+bindsym $mod+Shift+3 exec "~/bin/move-cursor-window-center.sh move container to workspace $WS3"
+bindsym $mod+Shift+4 exec "~/bin/move-cursor-window-center.sh move container to workspace $WS4"
+bindsym $mod+Shift+5 exec "~/bin/move-cursor-window-center.sh move container to workspace $WS5"
+bindsym $mod+Shift+6 exec "~/bin/move-cursor-window-center.sh move container to workspace $WS6"
+bindsym $mod+Shift+7 exec "~/bin/move-cursor-window-center.sh move container to workspace $WS7"
+bindsym $mod+Shift+8 exec "~/bin/move-cursor-window-center.sh move container to workspace $WS8"
+bindsym $mod+Shift+9 exec "~/bin/move-cursor-window-center.sh move container to workspace $WS9"
+bindsym $mod+Shift+0 exec "~/bin/move-cursor-window-center.sh move container to workspace $WS10"
 
 # Move workspace to specific screen
-workspace $WS1 output DP-2.8
-workspace $WS2 output DP-0
-workspace $WS3 output DP-4
-workspace $WS4 output DP-6
+#workspace $WS1 output DP-2.8
+#workspace $WS2 output DP-0
+#workspace $WS3 output DP-4
+#workspace $WS4 output DP-6
 #bindsym $mod+F1 move workspace to output DP-2
 #bindsym $mod+F2 move workspace to output DP-0
 bindsym $mod+Control+Tab move workspace to output right
@@ -247,8 +249,11 @@ exec nm-applet
 exec gsettings set org.gnome.desktop.background show-desktop-icons false #prevents desktop from showing
 #exec parcellite #clipboard manager
 #exec clipit #clipboard manager what is usefull with xterm
-exec xset m 6 10 # set mouse acceleration first number is acceleration, second is threshold in px/10ms
-exec gvfs-mount -d /dev/sda3 # tell nautalus to mount my storage drive automatically
+
+exec_always xinput --set-prop 'pointer:Logitech MX Ergo' 'libinput Accel Speed' 1 # update for device $xinput list
+exec_always xset m 6 10 # set mouse acceleration first number is acceleration, second is threshold in px/10ms
+exec gio mount -d /dev/sdb3 # tell nautalus to mount my storage drive automatically
+exec gio mount -d /dev/sda1 # tell nautalus to mount my storage drive automatically
 exec barrier -c ~/Documents/barrier # replacemnt for synergy
 #exec desktop.sh # script to call xrandr TODO: try ARandR
 exec_always --no-startup-id /home/hammer/.local/bin/autotiling # pip install autotiling https://github.com/nwg-piotr/autotiling
@@ -311,7 +316,7 @@ bindsym $mod+o exec ~/bin/find_or_start.sh slack
 bindsym $mod+j exec ~/bin/find_or_start.sh spotify
 bindsym $mod+p exec python ~/bin/nextmatch.py Messages
 #bindsym $mod+Shift+p exec /opt/google/chrome/google-chrome --profile-directory=Default --app-id=nngjipgjhfkaeimbhgmodlbhligdflei
-bindsym $mod+Shift+p exec /snap/bin/chromium --app=https://messages.google.com/web/conversations
+bindsym $mod+Shift+p exec firefox  https://messages.google.com/web/
 
 #Enable alt tab back and forth
 workspace_auto_back_and_forth yes
@@ -369,8 +374,8 @@ bindsym Print --release exec ksnip -r
 # Clipboard Mgmgt
 #bindsym Shift+Ctrl+v exec copyq menu
 exec copyq
-bindsym Shift+Ctrl+v exec clip.zsh
-bindsym Shift+Ctrl+c exec copyq toggle
+bindsym Shift+Ctrl+c exec clip.zsh
+#bindsym Shift+Ctrl+c exec copyq toggle
 for_window [class="(?i)CopyQ"] floating enable, move position mouse
 
 # Initiate the comms workspace
@@ -393,9 +398,17 @@ exec xcape -t 300 -e 'Shift_L=parenleft;Shift_R=parenright;Control_L=Tab'
 # MouseKeys Setup: use the numpad keys to drive the mouse pointer around and click on stuff!
 # Activate with shift+numlock
 # Documentation https://www.x.org/releases/X11R7.7/doc/kbproto/xkbproto.html
-exec setxkbmap -option keypad:pointerkeys
-exec xkbset ma 20 16 40 100 2 #todo: this should probably be in udev because it goes away when replugging keyboard
-     #   [-]{mousekeysaccel | ma} [mk-delay> <mk_interval> <mk_time_to_max mk-max_speed> <mk_curve]
-bindsym  $hyper+Up exec xdotool click  --repeat 6 --delay 5 4 #scroll up and down
-bindsym  $hyper+Down exec xdotool click  --repeat 6 --delay 5 5
+exec_always setxkbmap -option keypad:pointerkeys
+exec_always xkbset m # enable mousekeys
+exec_always xkbset ma 1 5 130 140 800
+
+     #   [-]{mousekeysaccel | ma} [mk-delay> <mk_interval> <mk_time_to_max mk-max_speed> <mk_curve] , use xkbset-gui
+     
+
+bindsym $hyper+Up exec xdotool click  --repeat 6 --delay 5 4 #scroll up and down                                          
+bindsym $hyper+Down exec xdotool click  --repeat 6 --delay 5 5
+bindsym $hyper+6 exec xdotool click 9 # forward hisotory                                                                  
+bindsym $hyper+n exec xdotool click 8 # back history								
+bindsym $hyper+S exec xdotool click 3 # right click
+bindsym $hyper+M exec xkbset m && ~/bin/move-cursor-window-center.sh
 exec keynav # https://github.com/jordansissel/keynav handy mouse move with keyboard
