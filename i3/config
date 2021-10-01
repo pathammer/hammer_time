@@ -8,10 +8,13 @@
 #set $mod Mod1
 
 # Windows Key
-set $mod Mod4
+#set $mod Mod4
 set $win Mod4
+set $mod Mod1+Control+Mod4
+
+# These are cool but I don't like them because they can't be shifted.
 set $hyper Shift+Mod4+Mod1+Ctrl
-set $meh Shift+Mod1+Ctrl # TODO: use hyper keycombo from kinesis to prevent any possible keyboard shortcut conflicts
+set $meh Shift+Mod1+Ctrl
 
 # font for window titles. ISO 10646 = Unicode
 #font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -27,6 +30,13 @@ floating_modifier $mod
 # bindsym --whole-window button9 [class="gnome-terminal"] exec insert-cycledright
 
 bindsym $mod+button3 floating toggle
+
+# use these keys for focus, movement, and resize directions when reaching for
+# the arrows is not convenient
+set $up k
+set $down j
+set $left h
+set $right l
 
 bindsym button9 move left
 bindsym button8 move right
@@ -54,20 +64,33 @@ bindsym $mod+Down exec "~/bin/move-cursor-window-center.sh focus down"
 bindsym $mod+Up exec "~/bin/move-cursor-window-center.sh focus up"
 bindsym $mod+Right exec "~/bin/move-cursor-window-center.sh focus right"
 
+bindsym $mod+$left exec "~/bin/move-cursor-window-center.sh focus left"
+bindsym $mod+$down exec "~/bin/move-cursor-window-center.sh focus down"
+bindsym $mod+$up exec "~/bin/move-cursor-window-center.sh focus up"
+bindsym $mod+$right exec "~/bin/move-cursor-window-center.sh focus right"
+
 # move focused window
-bindsym $mod+Shift+Left exec "~/bin/move-cursor-window-center.sh move left"
-bindsym $mod+Shift+Down exec "~/bin/move-cursor-window-center.sh move down"
-bindsym $mod+Shift+Up exec "~/bin/move-cursor-window-center.sh move up"
-bindsym $mod+Shift+Right exec "~/bin/move-cursor-window-center.sh move right"
+bindsym $mod+Shift+Left exec "~/bin/move-cursor-window-center.sh move left 60px"
+bindsym $mod+Shift+Down exec "~/bin/move-cursor-window-center.sh move down 60px"
+bindsym $mod+Shift+Up exec "~/bin/move-cursor-window-center.sh move up 60px"
+bindsym $mod+Shift+Right exec "~/bin/move-cursor-window-center.sh move right 60px"
+
+bindsym $mod+Shift+$left exec "~/bin/move-cursor-window-center.sh move left 60px"
+bindsym $mod+Shift+$down exec "~/bin/move-cursor-window-center.sh move down 60px"
+bindsym $mod+Shift+$up exec "~/bin/move-cursor-window-center.sh move up 60px"
+bindsym $mod+Shift+$right exec "~/bin/move-cursor-window-center.sh move right 60px"
+
+# Move floating window to dead center
+bindsym $mod+c move absolute position center
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+v split h
 # split in vertical orientation
-bindsym $mod+Shift+h split v
+bindsym $mod+Shift+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen
-bindsym $mod+Shift+f fullscreen global
+#bindsym $mod+f fullscreen
+bindsym $mod+f fullscreen global
 
 # Make the currently focused window a scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -75,19 +98,18 @@ bindsym $mod+Shift+minus move scratchpad
 # Show the first scratchpad window
 bindsym $mod+minus scratchpad show
 
-# change container layout (stacked, tabbed, default)
+# Change container layout (stacked, tabbed, default)
 #bindsym $mod+s layout stacking
 #bindsym $mod+w layout tabbed
 #bindsym $mod+e layout default
 bindsym $mod+e layout toggle
-bindsym $mod+s layout toggle split
-
+bindsym $mod+q layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+Shift+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a        focus parent
@@ -99,11 +121,11 @@ bindsym $mod+Shift+a focus child
 bindsym $mod+t exec i3-input -F 'rename workspace to "%s"' -P 'New name for this workspace: '
 
 # customize workspace names
-set $WS1 number 1
-set $WS2 number 2
-set $WS3 number 3
-set $WS4 number 4
-set $WS5 number 5
+set $WS1 number 1: a
+set $WS2 number 2: s
+set $WS3 number 3: d
+set $WS4 number 4: f
+set $WS5 number 5: g
 set $WS6 number 6
 set $WS7 number 7
 set $WS8 number 8
@@ -135,6 +157,9 @@ bindsym $mod+Shift+8 exec "~/bin/move-cursor-window-center.sh move container to 
 bindsym $mod+Shift+9 exec "~/bin/move-cursor-window-center.sh move container to workspace $WS9"
 bindsym $mod+Shift+0 exec "~/bin/move-cursor-window-center.sh move container to workspace $WS10"
 
+bindsym $mod+bracketleft exec "~/bin/move-cursor-window-center.sh workspace prev"
+bindsym	$mod+bracketright exec "~/bin/move-cursor-window-center.sh workspace next" 
+
 # Move workspace to specific screen
 #workspace $WS1 output DP-2.8
 #workspace $WS2 output DP-0
@@ -142,7 +167,7 @@ bindsym $mod+Shift+0 exec "~/bin/move-cursor-window-center.sh move container to 
 #workspace $WS4 output DP-6
 #bindsym $mod+F1 move workspace to output DP-2
 #bindsym $mod+F2 move workspace to output DP-0
-bindsym $mod+Control+Tab move workspace to output right
+#bindsym $mod+Control+Tab move workspace to output right
 
 # reload the configuration file
 bindsym $mod+Shift+C reload
@@ -155,21 +180,16 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym $left       resize shrink width 10 px or 10 ppt
-        bindsym $down       resize grow height 10 px or 10 ppt
-        bindsym $up         resize shrink height 10 px or 10 ppt
-        bindsym $right      resize grow width 10 px or 10 ppt
+        bindsym $right      resize shrink width 10 px or 10 ppt
+        bindsym $up         resize grow height 10 px or 10 ppt
+        bindsym $down       resize shrink height 10 px or 10 ppt
+        bindsym $left       resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left        resize shrink width 10 px or 10 ppt
-        bindsym Down        resize grow height 10 px or 10 ppt
-        bindsym Up          resize shrink height 10 px or 10 ppt
-        bindsym Right       resize grow width 10 px or 10 ppt
+        bindsym Right       resize shrink width 10 px or 10 ppt
+        bindsym Up          resize grow height 10 px or 10 ppt
+        bindsym Down        resize shrink height 10 px or 10 ppt
+        bindsym Left        resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape or Mod1+r
         bindsym Return mode "default"
@@ -182,7 +202,7 @@ bindsym $mod+r mode "resize"
 mode "focused" {
 
                 # hardcoded focus keybindings
-                bindsym i [class="(?i)chrome"] focus
+                bindsym i [class="(?i)firefox"] focus
                 bindsym h [class="(?i)hipchat"] focus
                 bindsym u [class="(?i)slack"] focus
                 bindsym f [class="(?i)terminal" title="mc"] focus
@@ -244,6 +264,7 @@ bar {
 #Startup stuff
 #exec synapse #searcher
 exec nm-applet
+exec pasystray
 #exec caffeine-indicator
 #exec synergys -c /home/phammer/.synergy.conf --enable-crypto
 exec gsettings set org.gnome.desktop.background show-desktop-icons false #prevents desktop from showing
@@ -280,24 +301,26 @@ for_window [title="Popout for YouTube*"] floating enable, sticky enable, move po
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%-
 bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master 1+ toggle
-#XF86AudioPlay
-#XF86AudioStop
-#XF86AudioPrev
-#XF86AudioNext
+# XF86AudioPlay
+# XF86AudioStop
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+bindsym XF86AudioNext exec --no-startup-id playerctl next
 
 # spawn pavucontrol at the mouse
 for_window [class="(?i)pavucontrol"] floating enable, move position mouse
 
 # Control Spotify with dbus controller
 # https://github.com/acrisci/playerctl - there's a deb to install
-bindsym Shift+F6 exec --no-startup-id playerctl previous
-bindsym Shift+F7 exec --no-startup-id playerctl play-pause
-bindsym $mod+Shift+F7 exec --no-startup-id playerctl -p spotify play-pause
-bindsym Shift+F8 exec --no-startup-id playerctl next
+bindsym Shift+F4 exec --no-startup-id playerctl previous
+bindsym Shift+F5 exec --no-startup-id playerctl play-pause
+#bindsym $mod+Shift+F7 exec --no-startup-id playerctl -p spotify play-pause
+bindsym Shift+F6 exec --no-startup-id playerctl next
 
 #Lock the screen
 #bindsym $mod+Home exec --no-startup-id blur_lock.sh
-bindsym $mod+Home exec --no-startup-id i3lock -d -c 000000
+bindsym $mod+Home exec --no-startup-id i3lock -c 000000
+bindsym $mod+End exec (sleep 0.2 && systemctl suspend && i3lock -c 000000 ) &
 #bindsym $mod+Home exec --no-startup-id gnome-screensaver-command -l
 
 #Autolock after inactivity
@@ -306,17 +329,19 @@ exec --no-startup-id xautolock -time 5 -locker 'i3lock -d -c 000000' &
 
 #Snap to a program similar to windows 1, 2, 3...
 #bindsym $mod+i exec ~/bin/find_or_start.sh chrome
-bindsym  $mod+i exec ~/bin/find_or_start.sh firefox # -P home --new-tab about:newtab
+bindsym $mod+i exec ~/bin/find_or_start.sh firefox # -P home --new-tab about:newtab
 #bindsym $mod+Shift+i exec /opt/google/chrome/google-chrome --profile-directory="Profile 1"
-bindsym $mod+Shift+i exec firefox -P work --new-tab about:newtab
+#bindsym $mod+Shift+i exec firefox -P work --new-tab about:newtab
 bindsym $mod+o exec ~/bin/find_or_start.sh slack
-#bindsym $mod+u exec ~/bin/find_or_start.sh gnome-terminal
+bindsym $mod+u exec ~/bin/find_or_start.sh remmina
 #bindsym $mod+u exec python ~/bin/nextmatch.py @disney.com # my email!
-#bindsym $mod+u exec ~/bin/find_or_start.sh hirimain
-bindsym $mod+j exec ~/bin/find_or_start.sh spotify
-bindsym $mod+p exec python ~/bin/nextmatch.py Messages
+
+bindsym $mod+y exec ~/bin/find_or_start.sh spotify
+bindsym $hyper+m exec python ~/bin/nextmatch.py Messages
+bindsym $mod+p exec python ~/bin/nextmatch.py zoom
+bindsym $hyper+t exec firefox  https://messages.google.com/web/
 #bindsym $mod+Shift+p exec /opt/google/chrome/google-chrome --profile-directory=Default --app-id=nngjipgjhfkaeimbhgmodlbhligdflei
-bindsym $mod+Shift+p exec firefox  https://messages.google.com/web/
+
 
 #Enable alt tab back and forth
 workspace_auto_back_and_forth yes
@@ -326,6 +351,7 @@ bindsym $mod+Shift+Tab move container to workspace back_and_forth
 #for_Window [Class="^Pidgin$" Window_Role="^Conversation$"] Resize Grow Width 0 px or 30 ppt
 #for_window [class="^Google-chrome$" window_role="^pop-up$"] floating enable, move position mouse,  border none
 for_window [title="Hangouts"] floating enable, move position mouse
+for_window [title="ksnip"] floating enable, move position center
 for_window [title="Messages for web"] floating enable, sticky enable, move position mouse, resize set 1000 700
 for_window [title="Popout for YouTube*"] floating enable, sticky enable, move position 50 1900, border pixel 1
 for_window [title="Picture-in-Picture"] floating enable, sticky enable, move position 50 1900, border pixel 1
@@ -381,34 +407,41 @@ for_window [class="(?i)CopyQ"] floating enable, move position mouse
 # Initiate the comms workspace
 exec --no-startup-id "/home/hammer/.config/i3/comms.sh"
 
-# fun unicode character typing, similar to mac typing special chars i love
+# fun unicode character typing, similar to mac typing special chars I love
 bindsym --release mod1+minus exec xdotool key --clearmodifiers U2014 # em dash —
 bindsym --release Shift+mod1+1 exec xdotool key --clearmodifiers U203d # exclaim question ‽
 bindsym --release Shift+mod1+r exec xdotool key --clearmodifiers U2622 # radiation ☢
 bindsym --release Shift+mod1+x exec xdotool key --clearmodifiers U2620 # skull and cross ☠
 bindsym --release Shift+mod1+b exec xdotool key --clearmodifiers U2623 # biohazard ☣
 bindsym --release Shift+mod1+j exec xdotool key --clearmodifiers U2615 # java ☕
-bindsym --release Shift+mod1+ plus exec xdotool key --clearmodifiers U2248 # approx equals ≈
+bindsym --release Shift+mod1+h exec xdotool key --clearmodifiers U261e # hand pointing ☞
+bindsym --release Shift+mod1+plus  exec xdotool key --clearmodifiers U2248 # approx equals ≈
 bindsym --release Shift+mod1+minus exec xdotool key --clearmodifiers U00B1 # ±
+bindsym --release Shift+mod1+8 exec xdotool key --clearmodifiers U00B0 # °degrees°
 
 bindsym	Shift+mod1+e exec emoji-menu # https://github.com/jchook/emoji-menu
 
-exec xcape -t 300 -e 'Shift_L=parenleft;Shift_R=parenright;Control_L=Tab'
+# exec xcape -t 300 -e 'Shift_L=parenleft;Shift_R=parenright;Control_L=Tab'
 
 # MouseKeys Setup: use the numpad keys to drive the mouse pointer around and click on stuff!
 # Activate with shift+numlock
 # Documentation https://www.x.org/releases/X11R7.7/doc/kbproto/xkbproto.html
-exec_always setxkbmap -option keypad:pointerkeys
-exec_always xkbset m # enable mousekeys
-exec_always xkbset ma 1 5 130 140 800
+# exec_always setxkbmap -option keypad:pointerkeys
+# exec_always xkbset m # enable mousekeys
+# exec_always xkbset ma 1 5 130 140 800
 
-     #   [-]{mousekeysaccel | ma} [mk-delay> <mk_interval> <mk_time_to_max mk-max_speed> <mk_curve] , use xkbset-gui
+#   [-]{mousekeysaccel | ma} [mk-delay> <mk_interval> <mk_time_to_max mk-max_speed> <mk_curve] , use xkbset-gui
      
 
-bindsym $hyper+Up exec xdotool click  --repeat 6 --delay 5 4 #scroll up and down                                          
-bindsym $hyper+Down exec xdotool click  --repeat 6 --delay 5 5
-bindsym $hyper+6 exec xdotool click 9 # forward hisotory                                                                  
-bindsym $hyper+n exec xdotool click 8 # back history								
-bindsym $hyper+S exec xdotool click 3 # right click
-bindsym $hyper+M exec xkbset m && ~/bin/move-cursor-window-center.sh
-exec keynav # https://github.com/jordansissel/keynav handy mouse move with keyboard
+#bindsym $hyper+Up exec xdotool click  --repeat 6 --delay 5 4 #scroll up and down                                          
+#bindsym $hyper+Down exec xdotool click  --repeat 6 --delay 5 5
+#bindsym $hyper+l exec xdotool click  --repeat 6 --delay 5 6
+#bindsym $hyper+r exec xdotool click  --repeat 6 --delay 5 7
+# bindsym $hyper+6 exec xdotool click 9 # forward hisotory                    
+# bindsym $hyper+n exec xdotool click 8 # back history							
+#bindsym $hyper+S exec xdotool click 3 # right click
+#bindsym $hyper+M exec xkbset m && ~/bin/move-cursor-window-center.sh
+#exec keynav # https://github.com/jordansissel/keynav handy mouse move with keyboard
+
+#bindsym --release $mod+g exec /home/hammer/code/utils/i3-hud-menu/i3-hud-menu.py
+bindsym --release $mod+g exec /home/hammer/code/utils/i3-hud-menu/HUD.py

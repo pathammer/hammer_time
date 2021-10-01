@@ -51,8 +51,8 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git colored-man-pages screen web-search dircycle dirpersist common-aliases gradle)
-
+plugins=(git colored-man-pages screen web-search dircycle dirpersist common-aliases gradle rust docker docker-compose)
+#todo: you could use fzf and colorize plugins instead on my own custom solutions
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
