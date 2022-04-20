@@ -8,9 +8,9 @@
 #set $mod Mod1
 
 # Windows Key
-#set $mod Mod4
 set $win Mod4
 set $mod Mod1+Control+Mod4
+set $mod Mod4
 
 # These are cool but I don't like them because they can't be shifted.
 set $hyper Shift+Mod4+Mod1+Ctrl
@@ -19,7 +19,8 @@ set $meh Shift+Mod1+Ctrl
 # font for window titles. ISO 10646 = Unicode
 #font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 #font 
-set $FONT "pango:DejaVu Sans Mono 10"
+set $FONT "pango:DejaVu Sans Mono 7"
+set $FONT "pango:Noto Mono 7"
 font $FONT
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -265,7 +266,8 @@ bar {
 #exec synapse #searcher
 exec nm-applet
 exec pasystray
-#exec caffeine-indicator
+exec caffeine-indicator
+exec indicator-cpufreq
 #exec synergys -c /home/phammer/.synergy.conf --enable-crypto
 exec gsettings set org.gnome.desktop.background show-desktop-icons false #prevents desktop from showing
 #exec parcellite #clipboard manager
@@ -273,8 +275,8 @@ exec gsettings set org.gnome.desktop.background show-desktop-icons false #preven
 
 exec_always xinput --set-prop 'pointer:Logitech MX Ergo' 'libinput Accel Speed' 1 # update for device $xinput list
 exec_always xset m 6 10 # set mouse acceleration first number is acceleration, second is threshold in px/10ms
-exec gio mount -d /dev/sdb3 # tell nautalus to mount my storage drive automatically
-exec gio mount -d /dev/sda1 # tell nautalus to mount my storage drive automatically
+#exec gio mount -d /dev/sdb3 # tell nautalus to mount my storage drive automatically
+#exec gio mount -d /dev/sda1 # tell nautalus to mount my storage drive automatically
 exec barrier -c ~/Documents/barrier # replacemnt for synergy
 #exec desktop.sh # script to call xrandr TODO: try ARandR
 exec_always --no-startup-id /home/hammer/.local/bin/autotiling # pip install autotiling https://github.com/nwg-piotr/autotiling
