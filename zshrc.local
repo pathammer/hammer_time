@@ -1,3 +1,8 @@
+# get the hostname from ~/.ssh/config
+ssh_alias () {
+    ssh -G $1 | grep hostname | head -n 1 | cut -d ' ' -f2
+}
+
 ##################################################
 # Extract - extract most common compression	 #
 # types	    	    	 			 #
@@ -79,8 +84,9 @@ PATH=$PATH:~/.local/bin/
 
 #eval $(thefuck --alias)
 alias ll='ls -alhF'
-alias zshconfig="emacs -nw ~/.config/zshrc.local"
+alias zshconfig="emacs -nw ~/.config/zshrc.local && source ~/.config/zshrc.local"
 alias i3config="emacs -nw ~/.config/i3/config"
+alias sshconfig="emacs -nw ~/.ssh/config"
 alias i3statusconfig="emacs -nw ~/.config/i3/i3status.conf"
 
 function python_style() {
@@ -90,11 +96,97 @@ function python_style() {
 #bindkey '\e[A' history-beginning-search-backward
 #bindkey '\e[B' history-beginning-search-forward
 
+# CTRL-Shift-R - Paste the selected modified/staged git file paths into the command line
+__fzf_git_files() {
+  setopt localoptions pipefail no_aliases 2> /dev/null
+  local item
+
+  # Check if we're in a git repository
+  if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    { git diff --name-only --cached; git diff --name-only; } | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore ${FZF_DEFAULT_OPTS-} ${FZF_CTRL_R_OPTS-}" $(__fzfcmd) -m "$@" | while read item; do
+      echo -n "${(q)item} "
+    done
+    local ret=$?
+    echo
+    return $ret
+  else
+    echo "Not inside a git repository"
+    return 1
+  fi
+}
+
+
+fzf-git-widget() {
+  local selected_file
+  selected_file=$(__fzf_git_files)
+  if [[ -n $selected_file ]]; then
+    LBUFFER+=$selected_file
+  fi
+  zle reset-prompt
+}
+
+zle -N select_git_dirty_file
+bindkey '^x^g' select_git_dirty_file
+
+zle     -N            fzf-git-widget
+bindkey "^G" fzf-git-widget
+
+# brazil ws widget
+parse_and_cd() {
+  local root_dir=$(bws show -f json | jq -r '.root')
+  local selection=$(ls -d "${root_dir}/src/"* | fzf -m)
+  if [ -n "$selection" ] && [ -d "$selection" ]; then
+    echo $selection
+    return 0
+  else
+    echo "Invalid selection: $selection"
+    return 1
+  fi
+}
+
+#fzf-dir-widget() {
+#  LBUFFER="${LBUFFER}$(parse_and_cd)"
+#  zle reset-prompt
+#}
+#zle -N fzf-dir-widget
+#bindkey '^[' fzf-dir-widget
+
+
+bcd() {
+      local selection=$(ls -d $(bws show -f json | jq -r '.root')/src/* | fzf -m)
+      if [ -n "$selection" ] && [ -d "$selection" ]; then
+      	 cd "$selection"
+      fi
+}
+
+
+#bindkey '^[[28;5R' fzf-git-widget
+#bindkey -M emacs '^[[28;5R' fzf-git-widget
+#bindkey -M vicmd '^[[28;5R' fzf-git-widget
+#bindkey -M viins '^[[28;5R' fzf-git-widget
+
+# Function to run the script with fzf
+git_fuzzy_select() {
+  local files
+  files=$(git diff --name-only --cached)  # Get staged files
+  files+="$(git diff --name-only)"        # Append modified files
+  selected_file=$(echo "$files" | fzf --multi --select-1 --print-query)
+  echo "$selected_file"
+}
+
+# Create a custom widget to invoke the function
+#zle -N git_fuzzy_select_widget git_fuzzy_select
+
+# Bind the key combination to the custom widget
+#bindkey "^R" git_fuzzy_select_widget
+
+
 alias em='emacs -nw'
 
 alias st='git status'
 alias gco='git branch -a | fzf --height=20 --reverse --border | xargs git checkout'
-
+alias gres="git restore --staged --worktree \"*\" "
+alias kgrind="kcachegrind"
 alias volume='pavucontrol'
 
 alias python='python3'
@@ -102,7 +194,7 @@ alias pip='pip3'
 
 alias opn='xdg-open'
 
-alias cat='batcat' # https://github.com/sharkdp/bat
+alias ccat='pygmentize -g -O style=colorful,linenos=1'
 
 alias grab='peek'
 alias snipping-tool='peek'
@@ -114,9 +206,7 @@ zle -N nwZle
 # CTRL+n
 bindkey '^n' nwZle
 
-export PYTHONSTARTUP='/home/hammer/.pythonrc'
-
-# alias lucky='ducky' # put in the web-search plugin
+export PYTHONSTARTUP=$HOME/.pythonrcalias lucky='ducky' # put in the web-search plugin
 
 alias gst-launch=gst-launch-1.0
 alias gac="git add -u; git commit -m"
@@ -152,6 +242,8 @@ alias xevkb="xev -event keyboard | egrep -o '(keycode(.)+\)|XLookup.+[1-9].+)'"
 
 export PATH="$PATH:/home/ANT.AMAZON.COM/hammerpa/.local/bin"
 export PATH=$PATH:$HOME/.toolbox/bin
+
+export FZF_ALT_C_COMMAND="fd -t d . $HOME/code"
 
 if [[ -z "$MS_WSL" ]]; then
     source $HOME/.config/shell_clipboard_sync.zsh

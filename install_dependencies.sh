@@ -5,7 +5,7 @@ then echo "Please run as root"
      exit
 fi
 
-apt install i3 zsh fzf emacs peek htop pv nmap tmux tig ncdu tree chroma bat ranger xdotool screen imagemagick xclip copyq curl playerctl xautolock scrot gthumb autojump prettyping pasystray cpufreqd cpufrequtils indicator-cpufreq
+apt install i3 zsh fzf emacs peek htop pv nmap tmux tig ncdu tree chroma bat ranger xdotool screen imagemagick xclip copyq curl playerctl xautolock scrot gthumb autojump prettyping pasystray cpufreqd cpufrequtils indicator-cpufreq pipx
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 chsh hammer -s /usr/bin/zsh
 snap install vlc ksnip

@@ -9,6 +9,6 @@ ln zshrc ~/.zshrc
 ln zshrc.local ~/.config/
 ln fzf.zsh ~/.config/fzf.zsh
 ln shell_clipboard_sync.zsh ~/.config/
-
+ln p10k.zsh ~/.p10k.zsh
 ln i3/config "$I3_DIR"/
 ln i3/i3status.conf "$I3_DIR"/
